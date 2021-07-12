@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myappmahdi/Verifi.dart';
 
 import 'Login.dart';
 
@@ -27,9 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _handleSplash() async{
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-      return Login();
+      return Verifi();
     }));
   }
 

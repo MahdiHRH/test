@@ -30,6 +30,7 @@ class _LoginState extends State<Login> {
             child: Text(
           "Mahdi HRH",
           style: TextStyle(
+            fontWeight: FontWeight.bold,
             fontSize: 20,
             fontFamily: 'IranSans',
           ),

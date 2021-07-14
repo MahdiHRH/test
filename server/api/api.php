@@ -11,19 +11,18 @@ function SendSMS($conn, $txt, $mobile){
 	$stmt = $conn->prepare("SELECT * FROM set_sms");
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($id,$username,$password,$from,$url);
+	$stmt->bind_result($id,$username,$password,$url,$bodyId);
 	$stmt->fetch();
 	
 	$fields = [
 		'username' => $username,
 		'password' => $password,
-		'to' => $mobile,
-		'from' => $from,
 		'text' => $txt,
-		'isflash' => 'false'
+		'to' => $mobile,
+		'bodyId' => $bodyId
 	];
 	$headers = array(
-		'content-type' => 'application/x-www-form-urlencoded',
+		// 'content-type' => 'application/x-www-form-urlencoded',
 	);
 
 	$ch = curl_init( $url );
@@ -36,6 +35,8 @@ function SendSMS($conn, $txt, $mobile){
 	curl_close($ch);
 
 	$json = json_decode($result, true);
+	
+	// print($result);
 	
 			
 	
@@ -78,7 +79,7 @@ if(isset($_GET['apicall'])){
 						
 						$txt = "کد شما : ".$code;
 						
-						SendSMS($conn ,$txt,$mobile);
+						SendSMS($conn ,$code,$mobile);
 						
 						$response['error'] = false;
 						$response['message'] = 'Ok';
@@ -103,7 +104,7 @@ if(isset($_GET['apicall'])){
 				
 				$txt = "کد شما : ".$code;
 				
-				SendSMS($conn ,$txt,$mobile);
+				SendSMS($conn ,$code,$mobile);
 				
 				$response['error'] = false;
 				$response['message'] = 'Ok'; 
@@ -187,7 +188,7 @@ if(isset($_GET['apicall'])){
 
 			$txt = "کد شما : ".$code;
 
-			SendSMS($conn ,$txt,$mobile);
+			SendSMS($conn ,$code,$mobile);
 
 			$response['error'] = false;
 			$response['message'] = 'Ok'; 

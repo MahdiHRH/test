@@ -27,7 +27,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         color: Colors.indigo,
+        child: Center(
+          child: Text(
+            "Mahdi HRH",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
+          ),
+        ),
       ),
     );
   }
@@ -70,7 +78,9 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  void checklogin({required String mobile,}) async {
+  void checklogin({
+    required String mobile,
+  }) async {
     var url = "http://www.instasekke.ir/myapptest/api.php?apicall=check_login";
     var body = Map<String, dynamic>();
     body["mobile"] = mobile;

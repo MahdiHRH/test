@@ -36,12 +36,7 @@ class _LoginState extends State<Login> {
               child: Text(
                 'تایید',
                 textScaleFactor: 1,
-                style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontFamily: 'IranSans',
-                  fontSize: MyFontStyleDevice(context, .032, .037),
-                  fontWeight: FontWeight.bold,
-                ),
+                style: MyFontStyleSelect(context, "txt"),
                 textDirection: TextDirection.rtl,
               ),
               onPressed: () {
@@ -90,7 +85,7 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.center,
                 child: Container(
                   width: MediaQuery.of(context).size.width / 1.2,
-                  height: 220,
+                  height: 243,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -107,8 +102,15 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "شماره همراه خود را وارد نمایید",
+                          style: MyFontStyleSelect(context, "txt"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "مثال : *********09",textDirection: TextDirection.rtl,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'IranSans',
                           ),
                         ),
@@ -123,8 +125,8 @@ class _LoginState extends State<Login> {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             controller: T_mobile,
-                            textDirection: TextDirection.rtl,
-                            textAlign: TextAlign.right,
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.start,
                             decoration: InputDecoration(
                               filled: true,
                               contentPadding: const EdgeInsets.all(10.0),
@@ -149,24 +151,21 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 30,
                       ),
-                      RoundedLoadingButton(
-                        // borderRadius: 5,
-                        color: Color.fromARGB(255, 86, 102, 239),
-                        child: Text('ارسال کد',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'IranSans',
-                            )),
-                        controller: _btnController,
-                        onPressed: () {
-                          if(T_mobile.text.length == 11){
-                            send_code(mobile: T_mobile.text);
-                          }else{
-                            DialogMessg("شماره همرا صحیح نمی باشد");
-                          }
-
-                        },
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0,left: 20),
+                        child: RoundedLoadingButton(
+                          // borderRadius: 5,
+                          color: Color.fromARGB(255, 86, 102, 239),
+                          child: Text('ارسال کد', style: MyFontStyleSelect(context, "btn")),
+                          controller: _btnController,
+                          onPressed: () {
+                            if (T_mobile.text.length == 11) {
+                              send_code(mobile: T_mobile.text);
+                            } else {
+                              DialogMessg("شماره همرا صحیح نمی باشد");
+                            }
+                          },
+                        ),
                       )
                     ],
                   ),
@@ -198,11 +197,9 @@ class _LoginState extends State<Login> {
       //successful
 
       var json_model = json.decode(utf8.decode(response.bodyBytes));
-      var model = login_json(json_model["error"],json_model["message"]);
+      var model = login_json(json_model["error"], json_model["message"]);
 
-      if(model.error == false){
-
-
+      if (model.error == false) {
         _btnController.success();
 
         Timer(Duration(seconds: 1), () {
@@ -213,7 +210,9 @@ class _LoginState extends State<Login> {
                 animation,
                 secondaryAnimation,
               ) =>
-                  Verifi(mobile: T_mobile.text,),
+                  Verifi(
+                mobile: T_mobile.text,
+              ),
               transitionsBuilder: (
                 context,
                 animation,
@@ -233,8 +232,7 @@ class _LoginState extends State<Login> {
             ),
           );
         });
-
-      }else{
+      } else {
         DialogMessg(model.message);
         _btnController.error();
       }

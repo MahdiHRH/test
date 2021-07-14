@@ -47,12 +47,7 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
               child: Text(
                 'تایید',
                 textScaleFactor: 1,
-                style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontFamily: 'IranSans',
-                  fontSize: MyFontStyleDevice(context, .032, .037),
-                  fontWeight: FontWeight.bold,
-                ),
+                style: MyFontStyleSelect(context, "txt"),
                 textDirection: TextDirection.rtl,
               ),
               onPressed: () {
@@ -148,26 +143,15 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "وارد کردن کد فعال سازی",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                          fontFamily: 'IranSans',
-                        ),
+                        style: MyFontStyleSelect(context, "titr"),
                         textAlign: TextAlign.center,
                       ),
                     ),
-
                     Text(
                       "یک پیام حاوی کد فعال سازی برای شما ارسال شد",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: 'IranSans',
-                      ),
+                      style: MyFontStyleSelect(context, "txt"),
                       textAlign: TextAlign.center,
                     ),
-
                     SizedBox(
                       height: 15,
                     ),
@@ -196,11 +180,9 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                         )
                       ],
                     ),
-
                     SizedBox(
                       height: 20,
                     ),
-
                     (animsts == false)
                         ? AnimatedBuilder(
                             animation: controller,
@@ -210,7 +192,7 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: 15,
                                   fontFamily: 'IranSans',
                                 ),
                               );
@@ -226,7 +208,7 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                                fontSize: 15,
                                 fontFamily: 'IranSans',
                               ),
                             ),
@@ -234,16 +216,13 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                     SizedBox(
                       height: 20,
                     ),
-
                     RoundedLoadingButton(
                       // borderRadius: 5,
                       color: Color.fromARGB(255, 86, 102, 239),
-                      child: Text('تایید',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: 'IranSans',
-                          )),
+                      child: Text(
+                        'تایید',
+                        style: MyFontStyleSelect(context, "btn"),
+                      ),
                       controller: _btnController,
                       onPressed: () {
                         String sum = "";
@@ -252,7 +231,6 @@ class _VerifiState extends State<Verifi> with TickerProviderStateMixin {
                         check_code(mobile: widget.mobile, code: sum);
                       },
                     ),
-
                     SizedBox(
                       height: 20,
                     ),

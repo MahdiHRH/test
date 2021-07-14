@@ -28,8 +28,10 @@ class _usersState extends State<users> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 86, 102, 239),
         centerTitle: true,
-        title: Text("لیست کاربران",
-          style: MyFontStyleSelect(context, "titr"),),
+        title: Text(
+          "لیست کاربران",
+          style: MyFontStyleSelect(context, "titr"),
+        ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -54,8 +56,10 @@ class _usersState extends State<users> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(userall[index].mobile,
-                style: MyFontStyleSelect(context, "txt"),),
+              Text(
+                userall[index].mobile,
+                style: MyFontStyleSelect(context, "txt"),
+              ),
               Text(
                 "شماره موبایل :",
                 style: MyFontStyleSelect(context, "txt"),

@@ -19,22 +19,22 @@ class sms_json {
 
   String _password;
 
-  String _from_send;
-
   String _url;
 
-  sms_json(this._id, this._username, this._password, this._from_send, this._url);
+  String _bodyId;
+
+  sms_json(this._id, this._username, this._password, this._url, this._bodyId);
+
+  String get bodyId => _bodyId;
+
+  set bodyId(String value) {
+    _bodyId = value;
+  }
 
   String get url => _url;
 
   set url(String value) {
     _url = value;
-  }
-
-  String get from_send => _from_send;
-
-  set from_send(String value) {
-    _from_send = value;
   }
 
   String get password => _password;

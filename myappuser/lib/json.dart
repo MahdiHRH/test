@@ -1,6 +1,4 @@
-
-class verifi_json{
-
+class verifi_json {
   String _sts;
   String _message;
   bool _error;
@@ -26,7 +24,7 @@ class verifi_json{
   }
 }
 
-class login_json{
+class login_json {
   bool _error;
   String _message;
 
@@ -45,7 +43,7 @@ class login_json{
   }
 }
 
-class login_check{
+class login_check {
   bool _error;
   bool _login;
 

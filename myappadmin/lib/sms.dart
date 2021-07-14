@@ -15,7 +15,7 @@ class SMS extends StatefulWidget {
 class _SMSState extends State<SMS> {
   var T_username = TextEditingController();
   var T_password = TextEditingController();
-  var T_from_send = TextEditingController();
+  var T_bodyId = TextEditingController();
   var T_url = TextEditingController();
 
   List<sms_json> smsjson = [];
@@ -111,12 +111,12 @@ class _SMSState extends State<SMS> {
                     Container(
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
-                        child: TextFieldMy(T_from_send),
+                        child: TextFieldMy(T_bodyId),
                       ),
                     ),
                     Container(
                       child: Text(
-                        "شماره ارسال کننده :",
+                        "کد پیام :",
                         style: MyFontStyleSelect(context, "txt"),
                         textScaleFactor: 1.0,
                         textDirection: TextDirection.rtl,
@@ -158,7 +158,7 @@ class _SMSState extends State<SMS> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: () {
-                      smsset(username: T_username.text, password: T_password.text, from_send: T_from_send.text, url: T_url.text);
+                      smsset(username: T_username.text, password: T_password.text, url: T_url.text, bodyId: T_bodyId.text);
                     },
                     child: Text(
                       "ثبت",
@@ -195,12 +195,12 @@ class _SMSState extends State<SMS> {
       //successful
 
       var infoJson = json.decode(utf8.decode(response.bodyBytes));
-      var model = sms_json(infoJson["id"], infoJson["username"], infoJson["password"], infoJson["from_send"], infoJson["url"]);
+      var model = sms_json(infoJson["id"], infoJson["username"], infoJson["password"], infoJson["url"], infoJson["bodyId"]);
 
       setState(() {
         T_username.text = model.username;
         T_password.text = model.password;
-        T_from_send.text = model.from_send;
+        T_bodyId.text = model.bodyId;
         T_url.text = model.url;
       });
     } else {
@@ -212,16 +212,16 @@ class _SMSState extends State<SMS> {
   void smsset({
     required String username,
     required String password,
-    required String from_send,
     required String url,
+    required String bodyId,
   }) async {
     var url = "http://www.instasekke.ir/myapptest/admin/api.php?apicall=sms_set";
     var body = Map<String, dynamic>();
 
     body["username"] = username;
     body["password"] = password;
-    body["from_send"] = from_send;
     body["url"] = url;
+    body["bodyId"] = bodyId;
 
     Response response = await post(Uri.parse(url), body: body);
     if (response.statusCode == 200) {

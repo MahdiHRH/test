@@ -1,8 +1,13 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myappmahdi/Verifi.dart';
+import 'package:myappmahdi/json.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+import 'font.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -12,17 +17,48 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
 
-  void _doSomething() async {
-    Timer(Duration(seconds: 3), () {
-      _btnController.success();
-      _btnController.reset();
-    });
+  var T_mobile = TextEditingController();
+
+  Future<void> DialogMessg(String Value) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(
+            Value,
+            textScaleFactor: 1,
+            style: MyFontStyleSelect(context, "txt"),
+            textDirection: TextDirection.rtl,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'تایید',
+                textScaleFactor: 1,
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontFamily: 'IranSans',
+                  fontSize: MyFontStyleDevice(context, .032, .037),
+                  fontWeight: FontWeight.bold,
+                ),
+                textDirection: TextDirection.rtl,
+              ),
+              onPressed: () {
+                _btnController.reset();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 86, 102, 239),
         elevation: 0,
@@ -48,12 +84,13 @@ class _LoginState extends State<Login> {
                 borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 70.0)),
               ),
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 200),
+            Padding(
+              padding: const EdgeInsets.only(top: 100.0),
+              child: Align(
+                alignment: Alignment.center,
                 child: Container(
                   width: MediaQuery.of(context).size.width / 1.2,
-                  height: 250,
+                  height: 220,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -77,13 +114,15 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Directionality(
                           textDirection: TextDirection.rtl,
                           child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: T_mobile,
                             textDirection: TextDirection.rtl,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
@@ -111,7 +150,7 @@ class _LoginState extends State<Login> {
                         height: 30,
                       ),
                       RoundedLoadingButton(
-                        borderRadius: 5,
+                        // borderRadius: 5,
                         color: Color.fromARGB(255, 86, 102, 239),
                         child: Text('ارسال کد',
                             style: TextStyle(
@@ -121,7 +160,12 @@ class _LoginState extends State<Login> {
                             )),
                         controller: _btnController,
                         onPressed: () {
-                          _doSomething();
+                          if(T_mobile.text.length == 11){
+                            send_code(mobile: T_mobile.text);
+                          }else{
+                            DialogMessg("شماره همرا صحیح نمی باشد");
+                          }
+
                         },
                       )
                     ],
@@ -130,15 +174,73 @@ class _LoginState extends State<Login> {
               ),
             ),
             Align(
-                child: Container(
-                    child: Image.asset(
-              "assets/vector.png",
-              scale: 1.5,
-            )),alignment: Alignment.topCenter,
+              child: Container(
+                  width: 250,
+                  height: 250,
+                  child: Image.asset(
+                    "assets/vector.png",
+                    fit: BoxFit.cover,
+                  )),
+              alignment: Alignment.topCenter,
             ),
           ],
         ),
       ),
     );
+  }
+
+  void send_code({required String mobile}) async {
+    var url = "http://www.instasekke.ir/myapptest/api.php?apicall=login";
+    var body = Map<String, dynamic>();
+    body["mobile"] = mobile;
+    Response response = await post(Uri.parse(url), body: body);
+    if (response.statusCode == 200) {
+      //successful
+
+      var json_model = json.decode(utf8.decode(response.bodyBytes));
+      var model = login_json(json_model["error"],json_model["message"]);
+
+      if(model.error == false){
+
+
+        _btnController.success();
+
+        Timer(Duration(seconds: 1), () {
+          Navigator.of(context).pushReplacement(
+            PageRouteBuilder(
+              pageBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+              ) =>
+                  Verifi(mobile: T_mobile.text,),
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) =>
+                  SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.ease,
+                )),
+                child: child,
+              ),
+            ),
+          );
+        });
+
+      }else{
+        DialogMessg(model.message);
+        _btnController.error();
+      }
+    } else {
+      //error
+      _btnController.reset();
+    }
   }
 }

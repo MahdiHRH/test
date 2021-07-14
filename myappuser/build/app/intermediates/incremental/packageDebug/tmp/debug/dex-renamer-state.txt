@@ -1,4 +1,0 @@
-#Wed Jul 14 13:29:09 IRDT 2021
-base.0=C\:\\Users\\Mahdi HRH\\Desktop\\myapp\\myappmahdi\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

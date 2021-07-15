@@ -158,7 +158,7 @@ class _SMSState extends State<SMS> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: () {
-                      smsset(username: T_username.text, password: T_password.text, url: T_url.text, bodyId: T_bodyId.text);
+                      smsset(username: T_username.text, password: T_password.text, urlapi: T_url.text, bodyId: T_bodyId.text);
                     },
                     child: Text(
                       "ثبت",
@@ -212,7 +212,7 @@ class _SMSState extends State<SMS> {
   void smsset({
     required String username,
     required String password,
-    required String url,
+    required String urlapi,
     required String bodyId,
   }) async {
     var url = "http://www.instasekke.ir/myapptest/admin/api.php?apicall=sms_set";
@@ -220,7 +220,7 @@ class _SMSState extends State<SMS> {
 
     body["username"] = username;
     body["password"] = password;
-    body["url"] = url;
+    body["url"] = urlapi;
     body["bodyId"] = bodyId;
 
     Response response = await post(Uri.parse(url), body: body);
